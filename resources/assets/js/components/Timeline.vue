@@ -6,6 +6,8 @@
                     <div class="panel-heading">Timeline</div>
 
                     <div class="panel-body">
+                        <post-form @postAdded="addPost"></post-form>
+                        <hr>
                         <post v-for="post in posts" :post="post"></post>
                     </div>
                 </div>
@@ -16,11 +18,18 @@
 
 <script>
     import Post from './Post.vue';
+    import PostForm from './PostForm.vue';
+
     export default {
-        components: {Post},
+        components: {Post, PostForm},
         data() {
             return {
                 posts: []
+            }
+        },
+        methods: {
+            addPost(post) {
+                this.posts.unshift(post);
             }
         },
         mounted() {

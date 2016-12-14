@@ -2,7 +2,7 @@
     <div class="media">
         <div class="media-left">
             <a href="#">
-                <img :src="post.user.avatar" :alt="post.user.name + ' avatar'">
+                <img :src="post.user.avatar" width="45" height="45" :alt="post.user.name + ' avatar'">
             </a>
         </div>
         <div class="media-body">
