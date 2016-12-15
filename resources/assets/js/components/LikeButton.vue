@@ -1,12 +1,12 @@
 <template>
     <div class="like">
-        <a href="#" class="btn btn-default like__button">&hearts;</a>
+        <a href="#" class="btn like__button"><i class="glyphicon glyphicon-heart"></i></a>
     </div>
 </template>
 
 <script>
     export default {
-
+        
     }
 </script>
 
