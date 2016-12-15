@@ -8,6 +8,8 @@
 </template>
 
 <script>
+    import events from '../events';
+
     export default {
         data() {
             return {
@@ -18,7 +20,7 @@
             post() {
                 this.$http.post('/posts', { body: this.body}).then(r => r.json())
                     .then(data => {
-                        this.$emit('postAdded', data);
+                        events.$emit('post-added', data);
                         this.body = null;
                     });
             }

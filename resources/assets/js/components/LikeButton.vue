@@ -1,12 +1,22 @@
 <template>
     <div class="like">
-        <a href="#" class="btn like__button"><i class="glyphicon glyphicon-heart"></i></a>
+        <a href="#" class="btn like__button" @click.prevent="like"><i class="glyphicon glyphicon-heart"></i></a>
     </div>
 </template>
 
 <script>
+    import events from '../events';
+
     export default {
-        
+        props: ['post'],
+        methods: {
+            like() {
+                this.$http.post(`/posts/${this.post.id}/likes`)
+                    .then(r => {
+                        events.$emit('post-liked', this.post);
+                    });
+            }
+        }
     }
 </script>
 

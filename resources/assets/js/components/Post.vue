@@ -1,7 +1,7 @@
 <template>
     <div class="media">
 
-        <like-button v-if="post.canBeLikedByCurrentUser"></like-button>
+        <like-button v-if="post.canBeLikedByCurrentUser" :post="post"></like-button>
 
         <div class="media-left">
             <a href="#">

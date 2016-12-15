@@ -21,3 +21,5 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/posts', 'PostController@index');
 Route::post('/posts', 'PostController@store');
+
+Route::post('/posts/{post}/likes', 'PostLikeController@store');

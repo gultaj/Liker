@@ -6,7 +6,7 @@
                     <div class="panel-heading">Timeline</div>
 
                     <div class="panel-body">
-                        <post-form @postAdded="addPost"></post-form>
+                        <post-form></post-form>
                         <hr>
                         <post v-for="post in posts" :post="post"></post>
                     </div>
@@ -19,6 +19,7 @@
 <script>
     import Post from './Post.vue';
     import PostForm from './PostForm.vue';
+    import events from '../events';
 
     export default {
         components: {Post, PostForm},
@@ -30,6 +31,15 @@
         methods: {
             addPost(post) {
                 this.posts.unshift(post);
+            },
+            likePost(post) {
+                this.posts.forEach(p => {
+                    if(p.id == post.id) {
+                        p.likeCount++;
+                        p.likedByCurrentUser = true;
+                        p.canBeLikedByCurrentUser = false;
+                    }
+                });
             }
         },
         mounted() {
@@ -37,6 +47,8 @@
                 .then(data => {
                     this.posts = data;
                 });
+            events.$on('post-liked', this.likePost);
+            events.$on('post-added', this.addPost);
         }
     }
 </script>
