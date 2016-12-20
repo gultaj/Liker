@@ -16,5 +16,6 @@ require('./bootstrap');
 Vue.component('timeline', require('./components/Timeline.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: window.Laravel
 });

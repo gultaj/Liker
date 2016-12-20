@@ -56,6 +56,16 @@
                 Echo.private('likes').listen('PostLiked', (e) => {
                     events.$emit('post-liked', e.post);
                 });
+                if (window.Notification && Notification.permission) {
+                    Notification.requestPermission(status => {
+                        Echo.private('App.User.' + this.$root.user.id).listen('PostLiked', (e) => {
+                            new Notification('Post liked', {
+                                body: e.user.name + ' liked your post "' + e.post.body + '"'
+                            });
+                        });
+                    });
+                }
+                
                 this.posts = r.body;
             });
         }
