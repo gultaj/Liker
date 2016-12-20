@@ -13,7 +13,7 @@
             like() {
                 this.$http.post(`/posts/${this.post.id}/likes`)
                     .then(r => {
-                        events.$emit('post-liked', this.post);
+                        events.$emit('post-liked', this.post, true);
                     });
             }
         }

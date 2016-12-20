@@ -10,7 +10,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PostWasCreated implements ShouldBroadcast
+class PostCreated implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
 
@@ -40,8 +40,7 @@ class PostWasCreated implements ShouldBroadcast
     {
         return [
             'post' => array_merge($this->post->toArray(), [
-                //'likedByCurrentUser' => $this->post->likedByCurrentUser,
-                'canBeLikedByCurrentUser' => true,
+                //'canBeLikedByCurrentUser' => true,
                 'user' => $this->post->user
             ])
         ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\PostLiked;
 use App\Post;
 
 class PostLikeController extends Controller
@@ -24,6 +25,8 @@ class PostLikeController extends Controller
         }
 
         $like->save();
+
+        broadcast(new PostLiked($post))->toOthers();
 
         return response(null, 200);
     }

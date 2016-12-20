@@ -29,15 +29,18 @@
             }
         },
         methods: {
-            addPost(post) {
+            addPost(post, canBeLikedByCurrentUser = false) {
+                post.canBeLikedByCurrentUser = canBeLikedByCurrentUser;
                 this.posts.unshift(post);
             },
-            likePost(post) {
+            likePost(post, likedByCurrentUser = false) {
                 this.posts.forEach(p => {
                     if(p.id == post.id) {
                         p.likeCount++;
-                        p.likedByCurrentUser = true;
-                        p.canBeLikedByCurrentUser = false;
+                        if (likedByCurrentUser) {
+                            p.likedByCurrentUser = likedByCurrentUser;
+                            p.canBeLikedByCurrentUser = !likedByCurrentUser;
+                        }
                     }
                 });
             }
@@ -47,9 +50,11 @@
             events.$on('post-added', this.addPost);
 
             this.$http.get('/posts').then(r => {
-                Echo.private('posts').listen('PostWasCreated', (e) => {
-                    console.log(e.post);
-                    events.$emit('post-added', e.post);
+                Echo.private('posts').listen('PostCreated', (e) => {
+                    events.$emit('post-added', e.post, true);
+                });
+                Echo.private('likes').listen('PostLiked', (e) => {
+                    events.$emit('post-liked', e.post);
                 });
                 this.posts = r.body;
             });
