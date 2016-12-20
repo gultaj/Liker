@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use App\Events\PostWasCreated;
 
 class PostController extends Controller
 {
@@ -26,6 +27,8 @@ class PostController extends Controller
         $post = $request->user()->posts()->create([
             'body' => $request->body
         ]);
+
+        broadcast(new PostWasCreated($post))->toOthers();
 
         return $post->load(['user']);
     }

@@ -43,12 +43,16 @@
             }
         },
         mounted() {
-            this.$http.get('/posts').then(r => r.json())
-                .then(data => {
-                    this.posts = data;
-                });
             events.$on('post-liked', this.likePost);
             events.$on('post-added', this.addPost);
+
+            this.$http.get('/posts').then(r => {
+                Echo.private('posts').listen('PostWasCreated', (e) => {
+                    console.log(e.post);
+                    events.$emit('post-added', e.post);
+                });
+                this.posts = r.body;
+            });
         }
     }
 </script>
