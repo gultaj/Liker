@@ -1,5 +1,5 @@
 <template>
-    <div class="media">
+    <div class="media" v-if="post">
 
         <like-button v-if="post.canBeLikedByCurrentUser" :post="post"></like-button>
 

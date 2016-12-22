@@ -6,9 +6,10 @@
                     <div class="panel-heading">Timeline</div>
 
                     <div class="panel-body">
-                        <post-form></post-form>
-                        <hr>
-                        <post v-for="post in posts" :post="post"></post>
+                        <post-form></post-form><hr>
+                        <transition-group tag="div" enter-active-class="animated zoomIn">
+                            <post v-for="post in posts" :key="post.id" :post="post"></post>
+                        </transition-group>
                     </div>
                 </div>
             </div>
@@ -22,7 +23,7 @@
     import events from '../events';
 
     export default {
-        components: {Post, PostForm},
+        components: { Post, PostForm },
         data() {
             return {
                 posts: []
@@ -31,11 +32,12 @@
         methods: {
             addPost(post, canBeLikedByCurrentUser = false) {
                 post.canBeLikedByCurrentUser = canBeLikedByCurrentUser;
+                post.show = true;
                 this.posts.unshift(post);
             },
             likePost(post, likedByCurrentUser = false) {
                 this.posts.forEach(p => {
-                    if(p.id == post.id) {
+                    if (p.id == post.id) {
                         p.likeCount++;
                         if (likedByCurrentUser) {
                             p.likedByCurrentUser = likedByCurrentUser;
@@ -45,7 +47,7 @@
                 });
             }
         },
-        mounted() {
+        beforeMount() {
             events.$on('post-liked', this.likePost);
             events.$on('post-added', this.addPost);
 
@@ -65,7 +67,7 @@
                         });
                     });
                 }
-                
+
                 this.posts = r.body;
             });
         }
