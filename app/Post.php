@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Backpack\CRUD\CrudTrait;
 
 class Post extends Model
 {
-    protected $fillable = ['body'];
+    use CrudTrait;
+
+    protected $fillable = ['body', 'created_at'];
     protected $appends = ['likeCount', 'likedByCurrentUser', 'canBeLikedByCurrentUser'];
 
     public function user() 
@@ -37,5 +40,10 @@ class Post extends Model
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function setCreatedAtAttribute($value)
+    {
+        $this->attributes['created_at'] = \Date::parse($value);
     }
 }

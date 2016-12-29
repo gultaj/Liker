@@ -24,3 +24,9 @@ Route::get('/posts', 'PostController@index');
 Route::post('/posts', 'PostController@store');
 
 Route::post('/posts/{post}/likes', 'PostLikeController@store');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
+{
+    CRUD::resource('posts', 'Admin\PostCrudController');
+  
+});
